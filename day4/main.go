@@ -42,6 +42,8 @@ func main() {
 	}
 
 	score := 0
+	winners := 0
+	var uniqueWinners = make(map[int]bool)
 	for _, play := range numbers {
 		for k := 0; k < len(boards); k++ {
 			for i := 0; i < 5; i++ {
@@ -56,7 +58,12 @@ func main() {
 					}
 				}
 			}
-			if checkWin(boards[k]) {
+			_, exists := uniqueWinners[k]
+			if !exists && checkWin(boards[k]) {
+				uniqueWinners[k] = true
+				winners++
+			}
+			if winners == len(boards) {
 				score = getScore(boards[k])
 				buff, err := strconv.Atoi(play)
 				score = score * buff
